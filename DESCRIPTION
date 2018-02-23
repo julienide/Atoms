@@ -1,0 +1,68 @@
+Package: Atoms
+Type: Package
+Title: What the Package Does in One 'Title Case' Line
+Version: 1.0
+Date: 2017-08-02
+Author: Your Name
+Maintainer: Your Name <your@email.com>
+Description: One paragraph description of what the package does as one
+    or more full sentences.
+License: GPL (>= 2)
+SystemRequirements: C++11
+Imports:
+    Rcpp (>= 0.12.5)
+LinkingTo: Rcpp, RcppProgress
+RoxygenNote: 5.0.1
+Depends:
+    PeriodicTable,
+    plyr,
+    ncdf4,
+    rgl
+Collate:
+    'Atoms-class.R'
+    'guessFMT.R'
+    'Atoms.R'
+    'DCDParser.R'
+    'LAMMPSWriter.R'
+    'NCParser.R'
+    'RcppExports.R'
+    'angles.R'
+    'areColors.R'
+    'atomRecognition.R'
+    'bonds.R'
+    'cell.R'
+    'cell2mat.R'
+    'cellProperties.R'
+    'checkSel.R'
+    'com.R'
+    'current.R'
+    'dihedrals.R'
+    'fractional.R'
+    'freeVolume.R'
+    'guessAngles.R'
+    'guessBonds.R'
+    'guessDihedrals.R'
+    'guessResnumb.R'
+    'guessTopology.R'
+    'impropers.R'
+    'join.R'
+    'measure.R'
+    'natom.R'
+    'neighbors.R'
+    'nframe.R'
+    'pbc.R'
+    'pbcBox.R'
+    'planNormals.R'
+    'rdf.R'
+    'rmsd.R'
+    'selectAtoms.R'
+    'superCell.R'
+    'topoDictionary.R'
+    'topology.R'
+    'topologyGettersAndSetters.R'
+    'topologyGettersAndSetters2.R'
+    'trajectory.R'
+    'vectOrientation.R'
+    'view.R'
+    'wrap.R'
+    'writeAtoms.R'
