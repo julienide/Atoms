@@ -1,4 +1,12 @@
-#' pbc
+#' Periodic Boundary Conditions
+#'
+#' Get or set the periodic boundary conditions (PBC) of an object.
+#'
+#' @return \code{pbc} returns a logical vector of length 3 indicating wheither
+#'   PBC are define respectively along the a-, b- and c-axis of the system.
+#'
+#' @param x an R object fo which to get or set PBC.
+#' @param value a logical vector of length 3. PBC along a-, b- and c-axis.
 #'
 #' @name pbc
 #' @export

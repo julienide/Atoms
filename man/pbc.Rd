@@ -6,7 +6,7 @@
 \alias{pbc,Atoms-method}
 \alias{pbc<-}
 \alias{pbc<-,Atoms-method}
-\title{pbc}
+\title{Periodic Boundary Conditions}
 \usage{
 pbc(x)
 
@@ -16,7 +16,16 @@ pbc(x) <- value
 
 \S4method{pbc}{Atoms}(x) <- value
 }
+\arguments{
+\item{x}{an R object fo which to get or set PBC.}
+
+\item{value}{a logical vector of length 3. PBC along a-, b- and c-axis.}
+}
+\value{
+\code{pbc} returns a logical vector of length 3 indicating wheither
+  PBC are define respectively along the a-, b- and c-axis of the system.
+}
 \description{
-pbc
+Get or set the periodic boundary conditions (PBC) of an object.
 }
 
