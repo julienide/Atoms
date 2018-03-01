@@ -62,9 +62,8 @@ Rcpp::S4 comAtoms(
   Obj.slot("y") = ycom ;
   Obj.slot("z") = zcom ;
   Obj.slot("atoms") = Rcpp::DataFrame::create(
-    Rcpp::Named("atmname") = "Xx",
+    Rcpp::Named("atmname") = lvls,
     Rcpp::Named("atmtype") = "Xx",
-    Rcpp::Named("resname") = lvls,
     Rcpp::Named("mass") = mcom,
     Rcpp::Named("stringsAsFactors") = false) ;
 
