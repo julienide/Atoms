@@ -3,7 +3,7 @@
 \name{view}
 \alias{view}
 \alias{view.Atoms}
-\title{Visualize atomic structure}
+\title{Visualize Atomic Structure}
 \usage{
 view(x, ...)
 
@@ -12,9 +12,27 @@ view(x, ...)
   userMatrix = diag(4), pbc.box = NULL, ...)
 }
 \arguments{
-\item{\dots}{rgl.materials}
+\item{x}{an R object containing atomic coordinates such as an \sQuote{Atoms} object.}
+
+\item{drawing}{a character string. Drawing style. Must be one of \code{"points"}, \code{"lines"} or \code{"spheres"}.}
+
+\item{color}{a valid R coor vector. See \code{areColors}.}
+
+\item{radius}{a numeric vector. Atoms radii used for \code{"spheres"} drawing style.}
+
+\item{add}{a logical value. Wheither to add to an existing rgl scene.}
+
+\item{FOV}{a numeric value. See \code{par3d}}
+
+\item{windowRect}{a length 4 numeric vector. See \code{par3d}}
+
+\item{userMatrix}{a 4x4 numeric matrix. See \code{par3d}}
+
+\item{pbc.box}{a logical value. Wheither to draw the pbc box.}
+
+\item{\dots}{rgl.material}
 }
 \description{
-Visualize atomic structure
+Visualize Atomic Structure
 }
 

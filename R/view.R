@@ -1,7 +1,16 @@
-#' Visualize atomic structure
-#' 
-#' @param \dots rgl.materials
-#' 
+#' Visualize Atomic Structure
+#'
+#' @param x an R object containing atomic coordinates such as an \sQuote{Atoms} object.
+#' @param drawing a character string. Drawing style. Must be one of \code{"points"}, \code{"lines"} or \code{"spheres"}.
+#' @param color a valid R coor vector. See \code{areColors}.
+#' @param radius a numeric vector. Atoms radii used for \code{"spheres"} drawing style.
+#' @param add a logical value. Wheither to add to an existing rgl scene.
+#' @param FOV a numeric value. See \code{par3d}
+#' @param windowRect a length 4 numeric vector. See \code{par3d}
+#' @param userMatrix a 4x4 numeric matrix. See \code{par3d}
+#' @param pbc.box a logical value. Wheither to draw the pbc box.
+#' @param \dots rgl.material
+#'
 #' @name view
 #' @export
 view <- function(x, ...)
