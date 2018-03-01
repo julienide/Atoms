@@ -14,11 +14,11 @@ Rcpp::S4 comAtoms(
   Rcpp::NumericMatrix py = x.slot("y") ;
   Rcpp::NumericMatrix pz = x.slot("z") ;
   Rcpp::CharacterVector lvls = factor.attr("levels") ;
-  
+
   int natom = px.nrow() ;
   int nframe = px.ncol() ;
   int nres = lvls.size() ;
-  
+
   Rcpp::NumericVector mcom(nres, 0.0) ;
   Rcpp::NumericMatrix xcom(nres, nframe) ;
   Rcpp::NumericMatrix ycom(nres, nframe) ;
@@ -29,7 +29,7 @@ Rcpp::S4 comAtoms(
     int res = factor(atom) - 1 ;
     mcom(res) = mcom(res) + mass(atom) ;
   }
-  
+
   Progress pb(natom*nframe, true) ;
   for(int atom = 0; atom < natom; atom++)
   {
@@ -51,7 +51,7 @@ Rcpp::S4 comAtoms(
   Obj.slot("b") = x.slot("b") ;
   Obj.slot("c") = x.slot("c") ;
   Obj.slot("pbc") = x.slot("pbc") ;
-  Obj.slot("current") = Rcpp::NumericVector::create(1) ;
+  Obj.slot("current") = Rcpp::IntegerVector::create(1) ;
   Obj.slot("x") = xcom ;
   Obj.slot("y") = ycom ;
   Obj.slot("z") = zcom ;
@@ -61,6 +61,6 @@ Rcpp::S4 comAtoms(
     Rcpp::Named("resname") = lvls,
     Rcpp::Named("mass") = mcom,
     Rcpp::Named("stringsAsFactors") = false) ;
-  
+
   return Obj ;
 }

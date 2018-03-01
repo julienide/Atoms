@@ -1,51 +1,51 @@
 #' Atoms Class
-#' 
+#'
 #' An S4 class to store the topology and trajectory of an atomic system.
-#' 
-#' Atomic positions, velocities and forces as well as lattice parameters of 
-#' multiple frames of a molecular dynamics trajectory can be stored into an 
-#' \sQuote{Atoms} object. The topology of the system (bonds, bond angles, 
-#' dihedrals and impropers angles) can also be stored. Any type of atomic 
+#'
+#' Atomic positions, velocities and forces as well as lattice parameters of
+#' multiple frames of a molecular dynamics trajectory can be stored into an
+#' \sQuote{Atoms} object. The topology of the system (bonds, bond angles,
+#' dihedrals and impropers angles) can also be stored. Any type of atomic
 #' properties can easily be attached to the object.
-#' 
+#'
 #' @section \sQuote{\code{$}} and \sQuote{\code{$<-}} methods: Atomic properties
 #'   stored inside slot \code{atoms} can be get or set using the dollard syntax.
-#'   Atomic positions (\code{x}, \code{y} and \code{z}), velocities (\code{vx}, 
+#'   Atomic positions (\code{x}, \code{y} and \code{z}), velocities (\code{vx},
 #'   \code{vy} and \code{vz}) and forces (\code{fx}, \code{fy} and \code{fz}) of
 #'   the current frame can also be get or set.
-#'   
-#' @section \sQuote{\code{[}} and \sQuote{\code{[<-}} methods: Extract or 
-#'   replace a subset of an object of class \sQuote{Atoms}. The first/second 
-#'   index span over the atoms/frames. \code{NA} values can be used for atom 
+#'
+#' @section \sQuote{\code{[}} and \sQuote{\code{[<-}} methods: Extract or
+#'   replace a subset of an object of class \sQuote{Atoms}. The first/second
+#'   index span over the atoms/frames. \code{NA} values can be used for atom
 #'   selection to introduce gap positions. \code{NA} values are not permited for
 #'   frame selection.
-#'   
+#'
 #' @slot atoms a \code{data.frame} containg atomic properties.
-#' @slot bonds a \code{data.frame} containing the folling columns: \describe{ 
+#' @slot bonds a \code{data.frame} containing the folling columns: \describe{
 #'   \item{atm1,atm2}{integer vectors. Atom indexes forming bonds.} }
-#' @slot angles a \code{data.frame} containing the folling columns: \describe{ 
+#' @slot angles a \code{data.frame} containing the folling columns: \describe{
 #'   \item{atm1,atm2,atm3}{integer vectors. Atom indexes forming bond angles.} }
-#' @slot dihedrals a \code{data.frame} containing the folling columns: 
-#'   \describe{ \item{atm1,atm2,atm3, atm4}{integer vectors. Atom indexes 
+#' @slot dihedrals a \code{data.frame} containing the folling columns:
+#'   \describe{ \item{atm1,atm2,atm3, atm4}{integer vectors. Atom indexes
 #'   forming dihedral angles.} }
-#' @slot impropers a \code{data.frame} containing the folling columns: 
-#'   \describe{ \item{atm1,atm2,atm3, atm4}{integer vectors. Atom indexes 
+#' @slot impropers a \code{data.frame} containing the folling columns:
+#'   \describe{ \item{atm1,atm2,atm3, atm4}{integer vectors. Atom indexes
 #'   forming improper angles.} }
 #' @slot current an integer vector of length 1. Index of the current frame.
-#' @slot pbc a logical vector of length 3. Periodic boundary conditions along 
+#' @slot pbc a logical vector of length 3. Periodic boundary conditions along
 #'   the three directions of the cell.
 #' @slot a,b,c numeric matrices. Cartesian coordinates (rows) of lattice vectors
 #'   for each frame (columns).
 #' @slot x,y,z numeric matrices. Cartesian coordinates (rows) of atomic position
 #'   vectors for each frame (columns).
-#' @slot vx,vy,vz numeric matrices. Cartesian coordinates (rows) of velocity 
+#' @slot vx,vy,vz numeric matrices. Cartesian coordinates (rows) of velocity
 #'   vectors for each frame (columns).
-#' @slot fx,fy,fz numeric matrices. Cartesian coordinates (rows) of force 
+#' @slot fx,fy,fz numeric matrices. Cartesian coordinates (rows) of force
 #'   vectors for each frame (columns).
 #' @slot call the call used to create the object.
-#'   
+#'
 #' @keywords classes
-#'   
+#'
 #' @name Atoms-class
 #' @export
 setClass(
@@ -284,7 +284,7 @@ setMethod(
         }
         slot(x, "current") <- 1L
       }
-      
+
       # if(length(slot(x, name))){
       #   if(length(value) != 1L && length(value) != natom(x))
       #     stop("replacement has ", length(value), " rows, data has ", natom(x))
@@ -309,21 +309,21 @@ setMethod(
       i <- TRUE
     if(missing(j))
       j <- TRUE
-    
+
     if(!is.logical(i) && !is.numeric(i))
       stop("Selection must be done with logical or integer vectors")
     if(!is.logical(j) && !is.numeric(j))
       stop("Selection must be done with logical or integer vectors")
     if(anyNA(j))
       stop("NA values are not permitted for frame selection")
-    
+
     natom <- natom(x)
     if(is.logical(i))
       i <- seq_len(natom)[i]
     else
       i <- as.integer(i)
     i[i > natom] <- NA # Impose same behavious as a data.frame for atom indexing.
-    
+
     nframe <- nframe(x)
     if(is.logical(j))
       j <- seq_len(nframe)[j]
@@ -351,8 +351,10 @@ setMethod(
       x@fz <- x@fz[i, j, drop = FALSE]
     }
     if(x@current %in% j){
+      print(is(x@current))
+      print(is(as.integer(min(j))))
       # Shift index of current frame
-      x@current <- x@current - min(j) + 1L
+      x@current <- x@current - as.integer(min(j)) + 1L
     } else {
       # warning("Current frame has been removed. Current frame has been set to 1")
       x@current <- 1L
@@ -396,7 +398,7 @@ setMethod(
     rownames(x@angles) <- NULL
     rownames(x@dihedrals) <- NULL
     rownames(x@impropers) <- NULL
-    
+
     return(x)
   }
 )

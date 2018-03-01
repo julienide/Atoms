@@ -21,10 +21,10 @@
 An S4 class to store the topology and trajectory of an atomic system.
 }
 \details{
-Atomic positions, velocities and forces as well as lattice parameters of 
-multiple frames of a molecular dynamics trajectory can be stored into an 
-\sQuote{Atoms} object. The topology of the system (bonds, bond angles, 
-dihedrals and impropers angles) can also be stored. Any type of atomic 
+Atomic positions, velocities and forces as well as lattice parameters of
+multiple frames of a molecular dynamics trajectory can be stored into an
+\sQuote{Atoms} object. The topology of the system (bonds, bond angles,
+dihedrals and impropers angles) can also be stored. Any type of atomic
 properties can easily be attached to the object.
 }
 \section{Slots}{
@@ -32,23 +32,23 @@ properties can easily be attached to the object.
 \describe{
 \item{\code{atoms}}{a \code{data.frame} containg atomic properties.}
 
-\item{\code{bonds}}{a \code{data.frame} containing the folling columns: \describe{ 
+\item{\code{bonds}}{a \code{data.frame} containing the folling columns: \describe{
 \item{atm1,atm2}{integer vectors. Atom indexes forming bonds.} }}
 
-\item{\code{angles}}{a \code{data.frame} containing the folling columns: \describe{ 
+\item{\code{angles}}{a \code{data.frame} containing the folling columns: \describe{
 \item{atm1,atm2,atm3}{integer vectors. Atom indexes forming bond angles.} }}
 
-\item{\code{dihedrals}}{a \code{data.frame} containing the folling columns: 
-\describe{ \item{atm1,atm2,atm3, atm4}{integer vectors. Atom indexes 
+\item{\code{dihedrals}}{a \code{data.frame} containing the folling columns:
+\describe{ \item{atm1,atm2,atm3, atm4}{integer vectors. Atom indexes
 forming dihedral angles.} }}
 
-\item{\code{impropers}}{a \code{data.frame} containing the folling columns: 
-\describe{ \item{atm1,atm2,atm3, atm4}{integer vectors. Atom indexes 
+\item{\code{impropers}}{a \code{data.frame} containing the folling columns:
+\describe{ \item{atm1,atm2,atm3, atm4}{integer vectors. Atom indexes
 forming improper angles.} }}
 
 \item{\code{current}}{an integer vector of length 1. Index of the current frame.}
 
-\item{\code{pbc}}{a logical vector of length 3. Periodic boundary conditions along 
+\item{\code{pbc}}{a logical vector of length 3. Periodic boundary conditions along
 the three directions of the cell.}
 
 \item{\code{a,b,c}}{numeric matrices. Cartesian coordinates (rows) of lattice vectors
@@ -57,10 +57,10 @@ for each frame (columns).}
 \item{\code{x,y,z}}{numeric matrices. Cartesian coordinates (rows) of atomic position
 vectors for each frame (columns).}
 
-\item{\code{vx,vy,vz}}{numeric matrices. Cartesian coordinates (rows) of velocity 
+\item{\code{vx,vy,vz}}{numeric matrices. Cartesian coordinates (rows) of velocity
 vectors for each frame (columns).}
 
-\item{\code{fx,fy,fz}}{numeric matrices. Cartesian coordinates (rows) of force 
+\item{\code{fx,fy,fz}}{numeric matrices. Cartesian coordinates (rows) of force
 vectors for each frame (columns).}
 
 \item{\code{call}}{the call used to create the object.}
@@ -68,15 +68,15 @@ vectors for each frame (columns).}
 \section{\sQuote{\code{$}} and \sQuote{\code{$<-}} methods}{
  Atomic properties
   stored inside slot \code{atoms} can be get or set using the dollard syntax.
-  Atomic positions (\code{x}, \code{y} and \code{z}), velocities (\code{vx}, 
+  Atomic positions (\code{x}, \code{y} and \code{z}), velocities (\code{vx},
   \code{vy} and \code{vz}) and forces (\code{fx}, \code{fy} and \code{fz}) of
   the current frame can also be get or set.
 }
 
 \section{\sQuote{\code{[}} and \sQuote{\code{[<-}} methods}{
- Extract or 
-  replace a subset of an object of class \sQuote{Atoms}. The first/second 
-  index span over the atoms/frames. \code{NA} values can be used for atom 
+ Extract or
+  replace a subset of an object of class \sQuote{Atoms}. The first/second
+  index span over the atoms/frames. \code{NA} values can be used for atom
   selection to introduce gap positions. \code{NA} values are not permited for
   frame selection.
 }
