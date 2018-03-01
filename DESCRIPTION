@@ -1,12 +1,11 @@
 Package: Atoms
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title: Manipulate Atomic Systems
 Version: 1.0
 Date: 2017-08-02
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: One paragraph description of what the package does as one
-    or more full sentences.
+Author: Julien Idé, Jérémie Knoops
+Maintainer: Julien Idé <julien.ide.fr@gmail.com>
+Description: Read/Write topology/trajectory files.
 License: GPL (>= 2)
 SystemRequirements: C++11
 Imports:

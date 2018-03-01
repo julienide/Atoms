@@ -100,3 +100,4 @@
 #'   x@angles <- x@angles[order(x@angles$atm2), ]
 #'   return(x)
 #' }
+#
