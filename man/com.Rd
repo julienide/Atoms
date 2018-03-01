@@ -32,6 +32,6 @@ an object of class \sQuote{Atoms} containing dummy atoms at each
   mass are also attached to the object.
 }
 \description{
-Calculate the center of mass multiple residues.
+Calculate the center of mass of multiple residues.
 }
 

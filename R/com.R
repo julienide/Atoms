@@ -1,6 +1,6 @@
 #' Center Of Mass
 #'
-#' Calculate the center of mass multiple residues.
+#' Calculate the center of mass of multiple residues.
 #'
 #' @param x an R object
 #' @param mass a numeric vector. atomic masses. If \code{x$mass} is \code{NULL},
