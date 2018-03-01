@@ -26,24 +26,30 @@ Rcpp::S4 comAtoms(
 
   for(int atom = 0; atom < natom; atom++)
   {
-    int res = factor(atom) - 1 ;
-    mcom(res) = mcom(res) + mass(atom) ;
+    int res = factor(atom) ;
+    if(res != NA_INTEGER){
+      res = res - 1 ;
+      mcom(res) = mcom(res) + mass(atom) ;
+    }
   }
 
-  Progress pb(natom*nframe, true) ;
+  Progress pb(natom, true) ;
   for(int atom = 0; atom < natom; atom++)
   {
-    int res = factor(atom) - 1 ;
-    for(int frame = 0; frame < nframe; frame++)
-    {
-      if(Progress::check_abort()){
-        Rcpp::stop("Interuption") ;
-      }
-      xcom(res, frame) = xcom(res, frame) + px(atom, frame)*mass(atom)/mcom(res) ;
-      ycom(res, frame) = ycom(res, frame) + py(atom, frame)*mass(atom)/mcom(res) ;
-      zcom(res, frame) = zcom(res, frame) + pz(atom, frame)*mass(atom)/mcom(res) ;
-      pb.increment() ;
+    if(Progress::check_abort()){
+      Rcpp::stop("Interuption") ;
     }
+    int res = factor(atom) ;
+    if(res != NA_INTEGER){
+      res = res - 1 ;
+      for(int frame = 0; frame < nframe; frame++)
+      {
+        xcom(res, frame) = xcom(res, frame) + px(atom, frame)*mass(atom)/mcom(res) ;
+        ycom(res, frame) = ycom(res, frame) + py(atom, frame)*mass(atom)/mcom(res) ;
+        zcom(res, frame) = zcom(res, frame) + pz(atom, frame)*mass(atom)/mcom(res) ;
+      }
+    }
+    pb.increment() ;
   }
 
   Rcpp::S4 Obj ("Atoms") ;
