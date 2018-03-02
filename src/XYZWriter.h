@@ -3,6 +3,7 @@
 
 #include <Rcpp.h>
 #include <fstream>
+#include <progress.hpp>
 
 void XYZWriter(
   Rcpp::S4 x,

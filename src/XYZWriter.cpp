@@ -7,9 +7,9 @@
 void XYZWriter(
     Rcpp::S4 x,
     Rcpp::CharacterVector file){
-  
+
   bool multi = file.size() != 1 ;
-  
+
   Rcpp::DataFrame atoms = x.slot("atoms") ;
   Rcpp::CharacterVector atmtype ;
   if(atoms.containsElementNamed("atmtype") &&
@@ -21,14 +21,18 @@ void XYZWriter(
   Rcpp::Environment PeriodicTable("package:PeriodicTable") ;
   Rcpp::Function getSymb = PeriodicTable["symb"] ;
   Rcpp::CharacterVector symb = getSymb(atmtype) ;
-  
+
   Rcpp::NumericMatrix px = x.slot("x") ;
   Rcpp::NumericMatrix py = x.slot("y") ;
   Rcpp::NumericMatrix pz = x.slot("z") ;
   unsigned int natom = px.nrow() ;
   unsigned int nframe = px.ncol() ;
 
+  Progress pb(nframe, true) ;
   for(unsigned int frame = 0; frame < nframe; frame++){
+    if(Progress::check_abort()){
+      Rcpp::stop("Interuption") ;
+    }
     std::string filename ;
     std::ofstream fileWriter ;
     if(multi){
@@ -52,5 +56,6 @@ void XYZWriter(
       lineWriter << std::fixed << std::setw(12) << std::setprecision(6) << pz(atom, frame) << " " ;
       fileWriter << lineWriter.str() << std::endl ;
     }
+    pb.increment() ;
   }
 }

@@ -9,9 +9,9 @@ const double pi = std::atan(1.0)*4 ;
 void PDBWriter(
   Rcpp::S4 x,
   Rcpp::CharacterVector file){
-  
+
   bool multi = file.size() != 1 ;
-  
+
   Rcpp::DataFrame atoms = x.slot("atoms") ;
   std::vector< std::string > recname ;
   if(atoms.containsElementNamed("recname") &&
@@ -93,7 +93,7 @@ void PDBWriter(
   Rcpp::Environment PeriodicTable("package:PeriodicTable") ;
   Rcpp::Function getSymb = PeriodicTable["symb"] ;
   std::vector< std::string > symb = Rcpp::as< std::vector< std::string > >(getSymb(atmtype)) ;
-  
+
   Rcpp::LogicalVector pbc = x.slot("pbc") ;
   Rcpp::NumericMatrix a = x.slot("a") ;
   Rcpp::NumericMatrix b = x.slot("b") ;
@@ -104,11 +104,15 @@ void PDBWriter(
   unsigned int natom = px.nrow() ;
   unsigned int nframe = px.ncol() ;
   Rcpp::DataFrame bonds = x.slot("bonds") ;
-  
+
   // std::string filename = Rcpp::as<std::string>(file[0]) ;
   // std::ofstream fileWriter(filename) ;
-  
+
+  Progress pb(nframe, true) ;
   for(unsigned int frame = 0; frame < nframe; frame++){
+    if(Progress::check_abort()){
+      Rcpp::stop("Interuption") ;
+    }
     std::string filename ;
     std::ofstream fileWriter ;
     if(multi){
@@ -143,15 +147,15 @@ void PDBWriter(
         c(0, frame)*c(0, frame) +
         c(1, frame)*c(1, frame) +
         c(2, frame)*c(2, frame)) ;
-      double alpha = 
+      double alpha =
         b(0, frame)*c(0, frame) +
         b(1, frame)*c(1, frame) +
         b(2, frame)*c(2, frame) ;
-      double beta  = 
+      double beta  =
         c(0, frame)*a(0, frame) +
         c(1, frame)*a(1, frame) +
         c(2, frame)*a(2, frame) ;
-      double gamma = 
+      double gamma =
         a(0, frame)*b(0, frame) +
         a(1, frame)*b(1, frame) +
         a(2, frame)*b(2, frame) ;
@@ -171,7 +175,7 @@ void PDBWriter(
     }
     for(unsigned int atom = 0; atom < natom; atom++){
       // ATOM & HETATM
-      // 
+      //
       // COLUMNS        DATA  TYPE    FIELD        DEFINITION
       // -------------------------------------------------------------------------------------
       //  1 -  6        Record name   "ATOM  "
@@ -209,10 +213,10 @@ void PDBWriter(
       if(atmname.size() == natom){
         // if(trim(atmname[atom]).length() == 3){
         //   " XXX"
-        // } 
+        // }
         // if(trim(atmname[atom]).length() == 4){
         //   "XXXX"
-        // } 
+        // }
         lineWriter << std::left << std::setw(4) << atmname[atom].substr(0, 4) ;
       } else {
         lineWriter << std::left << std::setw(4) << atmname[0].substr(0, 4) ;
@@ -304,5 +308,6 @@ void PDBWriter(
       // END
       fileWriter << "END" << "\n" ;
     }
+    pb.increment() ;
   }
 }
