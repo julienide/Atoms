@@ -1,6 +1,6 @@
 #' writeLAMMPS
-#' 
-#' 
+#'
+#'
 #' @name writeLAMMPS
 #' @export
 writeLAMMPS <- function(x, file, type)
@@ -15,14 +15,14 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
     "ellipsoid", "full", "line", "meso",
     "molecular", "peri", "smd", "sphere",
     "template", "tri", "wavepacket", "hybrid")
-  
+
   if(!is.character(file) || length(file) != 1L)
     stop("'file' must be a cahracter vector of length 1")
   if(!is.character(type) || length(type) != 1L)
     stop("'type' must be a cahracter vector of length 1")
   if(!type %in% LAMMPSDataTypes)
     stop("'type' must be one of: ", paste(LAMMPSDataTypes, collapse = ", "))
-  
+
   if(is.null(x$atmtype))
     stop("Missing atom-type ('x$atmtype' is null)")
   atmtype <- as.integer(as.factor(x$atmtype))
@@ -71,14 +71,45 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
     wavepacket = {stop("Not implemented yet")},
     hybrid = {stop("Not implemented yet")}
   )
-  
+
   if(is.null(x$atmtype))
     x$atmtype <- x$atmname
-  
+
   fmt <- max(nchar(x$atmtype))
   fmt <- paste0("%-", fmt, "s")
-  
+
+  masses <- data.frame(
+    atmtype = as.integer(as.factor(x$atmtype)),
+    atmname = x$atmtype,
+    stringsAsFactors = FALSE)
+  if(!is.null(x$mass)){
+    masses$mass <- x$mass
+  } else {
+    masses$mass <- mass(masses$atmname)
+  }
+
+  masses <- unique(masses)
+  if(anyDuplicated(masses$atmtype))
+    stop("Atom with same type have different masses")
+
   types <- topoDict(x, unique = FALSE)
+  types$bonds[types$bonds$atm1 > types$bonds$atm2, ] <-
+    types$bonds[types$bonds$atm1 > types$bonds$atm2, 2:1]
+  types$angles[types$angles$atm1 > types$angles$atm3, ] <-
+    types$angles[types$angles$atm1 > types$angles$atm3, 3:1]
+  types$dihedrals[types$dihedrals$atm2 > types$dihedrals$atm3, ] <-
+    types$dihedrals[types$dihedrals$atm2 > types$dihedrals$atm3, 4:1]
+  types$dihedrals[types$dihedrals$atm2 == types$dihedrals$atm3 &
+                    types$dihedrals$atm1 > types$dihedrals$atm4, ] <-
+    types$dihedrals[types$dihedrals$atm2 == types$dihedrals$atm3 &
+                      types$dihedrals$atm1 > types$dihedrals$atm4, 4:1]
+  types$impropers[types$impropers$atm2 > types$impropers$atm3, ] <-
+    types$impropers[types$impropers$atm2 > types$impropers$atm3, 4:1]
+  types$impropers[types$impropers$atm2 == types$impropers$atm3 &
+                    types$impropers$atm1 > types$impropers$atm4, ] <-
+    types$impropers[types$impropers$atm2 == types$impropers$atm3 &
+                      types$impropers$atm1 > types$impropers$atm4, 4:1]
+
   types$bonds <- as.factor(
     sprintf(
       fmt = paste(rep(fmt, 2L), collapse = " "),
@@ -104,24 +135,39 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
       types$impropers$atm2,
       types$impropers$atm3,
       types$impropers$atm4))
-  
+
+  BOrder <- order(types$bonds)
+  AOrder <- order(types$angles)
+  DOrder <- order(types$dihedrals)
+  IOrder <- order(types$impropers)
+
+  types$bonds <- types$bonds[BOrder]
+  types$angles <- types$angles[AOrder]
+  types$dihedrals <- types$dihedrals[DOrder]
+  types$impropers <- types$impropers[IOrder]
+
+  x@bonds <- bonds(x)[BOrder, ]
+  x@angles <- angles(x)[AOrder, ]
+  x@dihedrals <- dihedrals(x)[DOrder, ]
+  x@impropers <- impropers(x)[IOrder, ]
+
   btypes <- as.integer(types$bonds)
   atypes <- as.integer(types$angles)
   dtypes <- as.integer(types$dihedrals)
   itypes <- as.integer(types$impropers)
-  
+
   types$bonds <- unique(types$bonds)
   types$angles <- unique(types$angles)
   types$dihedrals <- unique(types$dihedrals)
   types$impropers <- unique(types$impropers)
-  
+
   types$bonds <- structure(as.integer(types$bonds), names = as.character(types$bonds))
   types$angles <- structure(as.integer(types$angles), names = as.character(types$angles))
   types$dihedrals <- structure(as.integer(types$dihedrals), names = as.character(types$dihedrals))
   types$impropers <- structure(as.integer(types$impropers), names = as.character(types$impropers))
-  
+
   cell <- round(cell(x), digits = 5L)
-  
+
   lines <- c("LAMMPS data file", "")
   lines <- c(lines, sprintf(fmt = "%6i atoms", natom(x)))
   if(nrow(bonds(x)))
@@ -159,7 +205,21 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
         cell[1L, 2L], cell[1L, 3L], cell[2L, 3L]))
   }
   cat(lines, "", file = file, sep = "\n", append = TRUE)
-  
+
+  cat(
+    "Masses",
+    sprintf(fmt = "%6i    %12.6f # %s",
+            masses$atmtype, masses$mass, masses$atmname),
+    "",
+    file = file, sep = "\n", append = TRUE)
+
+  cat(
+    "Pair Coeffs",
+    sprintf(fmt = "%6i    0.0000    0.0000 # %s",
+            masses$atmtype, masses$atmname),
+    "",
+    file = file, sep = "\n", append = TRUE)
+
   if(length(types$bonds)){
     cat(
       "Bond Coeffs",
@@ -192,12 +252,12 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
       "",
       file = file, sep = "\n", append = TRUE)
   }
-  
+
   cat("Atoms",
       atoms,
       "",
       file = file, sep = "\n", append = TRUE)
-  
+
   if(nrow(bonds(x))){
     cat(
       "Bonds",

@@ -3,12 +3,13 @@ Type: Package
 Title: A R package to manipulate atomic systems
 Version: 1.0
 Date: 2018-03-01
-Author@R: c(
-    person("Julien", "Idé", email = "julien.ide.fr@gmail.com", role = c("aut", "cre")),
-    person("Jérémie", "Knoops", email = "jeremie.knoops@gmail.com", role = "aut"))
-Description: This package is intended to help people working with molecular modeling and quantum chemistry. 
-    It can read files  with the following formats: XYZ, PDB (ENT), RES, DCD, NC (NETCDF, NCDF) and LAMMPS. It also writes XYZ, PDB and LAMMPS files.
-    Various analysis can be performed on the atomic systems.
+Author@R: c( person("Julien", "Idé", email = "julien.ide.fr@gmail.com",
+    role = c("aut", "cre")), person("Jérémie", "Knoops", email =
+    "jeremie.knoops@gmail.com", role = "aut"))
+Description: This package is intended to help people working with molecular
+    modeling and quantum chemistry. It can read files with the following formats:
+    XYZ, PDB (ENT), RES, DCD, NC (NETCDF, NCDF) and LAMMPS. It also writes XYZ, PDB
+    and LAMMPS files. Various analysis can be performed on the atomic systems.
 URL: https://github.com/julienide/Atoms
 BugReports: https://github.com/julienide/Atoms/issues
 License: GPL (>= 2)
@@ -39,6 +40,7 @@ Collate:
     'cellProperties.R'
     'checkSel.R'
     'com.R'
+    'conc.R'
     'current.R'
     'dihedrals.R'
     'fractional.R'
