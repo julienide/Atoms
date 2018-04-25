@@ -340,8 +340,8 @@ impropers.Atoms <- function(x, atm1 = NA, atm2 = NA, atm3 = NA, atm4 = NA,
     atm2 = value$atm2,
     atm3 = value$atm3,
     atm4 = value$atm4)
-  x@impropers[x@impropers$atm3 < x@impropers$atm2, ] <-
-    x@impropers[x@impropers$atm3 < x@impropers$atm2, 4:1]
+  # x@impropers[x@impropers$atm3 < x@impropers$atm2, ] <-
+  #   x@impropers[x@impropers$atm3 < x@impropers$atm2, 4:1]
   x@impropers <- x@impropers[order(x@impropers$atm2, x@impropers$atm3), ]
   rownames(x@impropers) <- NULL
   return(x)

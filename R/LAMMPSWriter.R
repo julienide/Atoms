@@ -103,12 +103,12 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
                     types$dihedrals$atm1 > types$dihedrals$atm4, ] <-
     types$dihedrals[types$dihedrals$atm2 == types$dihedrals$atm3 &
                       types$dihedrals$atm1 > types$dihedrals$atm4, 4:1]
-  types$impropers[types$impropers$atm2 > types$impropers$atm3, ] <-
-    types$impropers[types$impropers$atm2 > types$impropers$atm3, 4:1]
-  types$impropers[types$impropers$atm2 == types$impropers$atm3 &
-                    types$impropers$atm1 > types$impropers$atm4, ] <-
-    types$impropers[types$impropers$atm2 == types$impropers$atm3 &
-                      types$impropers$atm1 > types$impropers$atm4, 4:1]
+  types$impropers[types$impropers$atm2 > types$impropers$atm3, 2:3] <-
+    types$impropers[types$impropers$atm2 > types$impropers$atm3, 3:2]
+  types$impropers[types$impropers$atm3 > types$impropers$atm4, 3:4] <-
+    types$impropers[types$impropers$atm3 > types$impropers$atm4, 4:3]
+  types$impropers[types$impropers$atm2 > types$impropers$atm3, 2:3] <-
+    types$impropers[types$impropers$atm2 > types$impropers$atm3, 3:2]
 
   types$bonds <- as.factor(
     sprintf(
