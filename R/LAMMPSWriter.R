@@ -181,7 +181,7 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
   lines <- c(lines, "")
   cat(lines, file = file, sep = "\n")
 
-  lines <- character(0)
+  lines <- c(sprintf(fmt = "%6i atom types", length(unique(x$atmtype))))
   if(length(types$bonds))
     lines <- c(lines, sprintf(fmt = "%6i bond types", length(types$bonds)))
   if(length(types$angles))
@@ -207,14 +207,14 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
   cat(lines, "", file = file, sep = "\n", append = TRUE)
 
   cat(
-    "Masses",
+    "Masses\n",
     sprintf(fmt = "%6i    %12.6f # %s",
             masses$atmtype, masses$mass, masses$atmname),
     "",
     file = file, sep = "\n", append = TRUE)
 
   cat(
-    "Pair Coeffs",
+    "Pair Coeffs\n",
     sprintf(fmt = "%6i    0.0000    0.0000 # %s",
             masses$atmtype, masses$atmname),
     "",
@@ -222,7 +222,7 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
 
   if(length(types$bonds)){
     cat(
-      "Bond Coeffs",
+      "Bond Coeffs\n",
       sprintf(fmt = "%6i    0.0000    0.0000 # %s",
               types$bonds, names(types$bonds)),
       "",
@@ -230,7 +230,7 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
   }
   if(length(types$angles)){
     cat(
-      "Angle Coeffs",
+      "Angle Coeffs\n",
       sprintf(fmt = "%6i    0.0000    0.0000 # %s",
               types$angles, names(types$angles)),
       "",
@@ -238,7 +238,7 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
   }
   if(length(types$dihedrals)){
     cat(
-      "Dihedrals Coeffs",
+      "Dihedrals Coeffs\n",
       sprintf(fmt = "%6i    0.0000    0.0000 # %s",
               types$dihedrals, names(types$dihedrals)),
       "",
@@ -246,21 +246,21 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
   }
   if(length(types$impropers)){
     cat(
-      "Impropers Coeffs",
+      "Impropers Coeffs\n",
       sprintf(fmt = "%6i    0.0000    0.0000 # %s",
               types$impropers, names(types$impropers)),
       "",
       file = file, sep = "\n", append = TRUE)
   }
 
-  cat("Atoms",
+  cat("Atoms\n",
       atoms,
       "",
       file = file, sep = "\n", append = TRUE)
 
   if(nrow(bonds(x))){
     cat(
-      "Bonds",
+      "Bonds\n",
       sprintf(fmt = "%6i %6i %6i %6i",
               1:nrow(bonds(x)), btypes, bonds(x)$atm1, bonds(x)$atm2),
       "",
@@ -268,7 +268,7 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
   }
   if(nrow(angles(x))){
     cat(
-      "Angles",
+      "Angles\n",
       sprintf(fmt = "%6i %6i %6i %6i %6i",
               1:nrow(angles(x)), atypes,
               angles(x)$atm1, angles(x)$atm2, angles(x)$atm3),
@@ -277,7 +277,7 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
   }
   if(nrow(dihedrals(x))){
     cat(
-      "Dihedrals",
+      "Dihedrals\n",
       sprintf(fmt = "%6i %6i %6i %6i %6i %6i",
               1:nrow(dihedrals(x)), dtypes,
               dihedrals(x)$atm1, dihedrals(x)$atm2,
@@ -287,7 +287,7 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
   }
   if(nrow(impropers(x))){
     cat(
-      "Impropers",
+      "Impropers\n",
       sprintf(fmt = "%6i %6i %6i %6i %6i %6i",
               1:nrow(impropers(x)), itypes,
               impropers(x)$atm1, impropers(x)$atm2,
