@@ -1,7 +1,7 @@
 #' wrap
-#' 
+#'
 #' wrap
-#' 
+#'
 #' @name wrap
 #' @export
 wrap <- function(x, ...)
