@@ -33,7 +33,7 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
     atomic = {
       # atom-ID atom-type x y z
       sprintf(
-        fmt = "%6i %6i %10.5f %10.5f %10.5f # %s",
+        fmt = "%6i %6i %12.6f %12.6f %12.6f # %s",
         1:natom(x), atmtype, x$x, x$y, x$z, x$atmtype)
     },
     body = {stop("Not implemented yet")},
@@ -43,7 +43,7 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
         stop("Missing charges ('x$charge' is null)")
       # atom-ID atom-type q x y z
       sprintf(
-        fmt = "%6i %6i %10.5f %10.5f %10.5f %10.5f # %s",
+        fmt = "%6i %6i %12.6f %12.6f %12.6f %12.6f # %s",
         1:natom(x), atmtype, x$charge, x$x, x$y, x$z, x$atmtype)
     },
     dipole = {stop("Not implemented yet")},
@@ -57,7 +57,7 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
         stop("Missing charges ('x$charge' is null)")
       # atom-ID molecule-ID atom-type q x y z
       sprintf(
-        fmt = "%6i %6i %6i %10.5f %10.5f %10.5f %10.5f # %s",
+        fmt = "%6i %6i %6i %12.6f %12.6f %12.6f %12.6f # %s",
         1:natom(x), x$resnumb, atmtype, x$charge, x$x, x$y, x$z, x$atmtype)
     },
     line = {stop("Not implemented yet")},
@@ -194,14 +194,14 @@ writeLAMMPS.Atoms <- function(x, file, type = "full"){
   cat(lines, file = file, sep = "\n", append = TRUE)
 
   lines <- c(
-    sprintf(fmt = "%10.5f %10.5f xlo xhi", 0.0, cell[1L, 1L]),
-    sprintf(fmt = "%10.5f %10.5f ylo yhi", 0.0, cell[2L, 2L]),
-    sprintf(fmt = "%10.5f %10.5f zlo zhi", 0.0, cell[3L, 3L]))
+    sprintf(fmt = "%12.6f %12.6f xlo xhi", 0.0, cell[1L, 1L]),
+    sprintf(fmt = "%12.6f %12.6f ylo yhi", 0.0, cell[2L, 2L]),
+    sprintf(fmt = "%12.6f %12.6f zlo zhi", 0.0, cell[3L, 3L]))
   if(any(cell[upper.tri(cell)] != 0.0)){
     lines <- c(
       lines,
       sprintf(
-        fmt = "%10.5f %10.5f %10.5f xy xz yz",
+        fmt = "%12.6f %12.6f %12.6f xy xz yz",
         cell[1L, 2L], cell[1L, 3L], cell[2L, 3L]))
   }
   cat(lines, "", file = file, sep = "\n", append = TRUE)
