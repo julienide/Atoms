@@ -35,6 +35,7 @@ Collate:
     'areColors.R'
     'atomRecognition.R'
     'bonds.R'
+    'cartesian.R'
     'cell.R'
     'cell2mat.R'
     'cellProperties.R'
